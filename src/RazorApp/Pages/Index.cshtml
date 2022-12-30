@@ -1,0 +1,39 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form method="post" enctype="multipart/form-data" id="form" onsubmit="return submitHandler()">
+    <div>
+        <label asp-for="Data.FileToUpload">Wybierz plik</label>
+        <input type="file" asp-for="Data.FileToUpload" accept=".jpg" />
+        <span asp-validation-for="Data.FileToUpload" class="text-danger" />
+    </div>
+
+    <div>
+        <label asp-for="Data.Message">Wiadomość</label>
+        <input type="text" asp-for="Data.Message" />
+        <span asp-validation-for="Data.Message" class="text-danger" />
+    </div>
+    <div>
+        <button id="submit-btn" type="submit">Wyślij mnie</button>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">
+        function submitHandler() {
+            let form = $("#form");
+            if (!form.validate().checkForm())
+                return false;
+
+            $("#submit-btn").disabled = true;
+
+            return true;
+        }
+    </script>
+}

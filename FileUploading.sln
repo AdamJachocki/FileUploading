@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorApp", "src\RazorApp\RazorApp.csproj", "{DF642769-3892-48EB-ABF7-08D6935DA57D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{F7A3EDAE-9151-456D-98FB-18AEF08AA540}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClient", "src\BlazorClient\BlazorClient.csproj", "{D52DE57C-95EC-48B1-8139-83DB8DC198C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_files", "_files", "{D7D3BF83-9AF7-4E4D-8FC6-9A5D5C1E99AA}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\WebApi\WebApi.csproj", "{53684097-35E8-4AAD-BC50-DB8E056DCCE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Blazor Debug|Any CPU = Blazor Debug|Any CPU
+		Razor Pages Debug|Any CPU = Razor Pages Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF642769-3892-48EB-ABF7-08D6935DA57D}.Blazor Debug|Any CPU.ActiveCfg = Blazor Debug|Any CPU
+		{DF642769-3892-48EB-ABF7-08D6935DA57D}.Razor Pages Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF642769-3892-48EB-ABF7-08D6935DA57D}.Razor Pages Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7A3EDAE-9151-456D-98FB-18AEF08AA540}.Blazor Debug|Any CPU.ActiveCfg = Blazor Debug|Any CPU
+		{F7A3EDAE-9151-456D-98FB-18AEF08AA540}.Blazor Debug|Any CPU.Build.0 = Blazor Debug|Any CPU
+		{F7A3EDAE-9151-456D-98FB-18AEF08AA540}.Razor Pages Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7A3EDAE-9151-456D-98FB-18AEF08AA540}.Razor Pages Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D52DE57C-95EC-48B1-8139-83DB8DC198C4}.Blazor Debug|Any CPU.ActiveCfg = Blazor Debug|Any CPU
+		{D52DE57C-95EC-48B1-8139-83DB8DC198C4}.Blazor Debug|Any CPU.Build.0 = Blazor Debug|Any CPU
+		{D52DE57C-95EC-48B1-8139-83DB8DC198C4}.Razor Pages Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53684097-35E8-4AAD-BC50-DB8E056DCCE3}.Blazor Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53684097-35E8-4AAD-BC50-DB8E056DCCE3}.Blazor Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53684097-35E8-4AAD-BC50-DB8E056DCCE3}.Razor Pages Debug|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA1341D0-95C0-44C2-8DCD-C667F2E3CA31}
+	EndGlobalSection
+EndGlobal

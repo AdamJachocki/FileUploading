@@ -1,0 +1,5 @@
+<Project>
+	<PropertyGroup Condition="'$(Configuration)'=='Blazor Debug'">
+		<DefineConstants>$(DefineConstants)BLAZOR</DefineConstants>
+	</PropertyGroup>
+</Project>

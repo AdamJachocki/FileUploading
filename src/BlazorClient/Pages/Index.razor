@@ -1,0 +1,122 @@
+﻿@page "/"
+@using BlazorClient.ViewModels;
+@using Common.Models
+@using System.Text.Json;
+@using System.Net.Http.Headers;
+
+<PageTitle>Index</PageTitle>
+
+<EditForm Model="@Data" OnValidSubmit="ValidSumbitHandler">
+    <DataAnnotationsValidator />
+    <div>
+        <label>
+            Wybierz plik:
+            <InputFile OnChange="FileChangeHandler" accept=".jpg;.png" />
+            <ValidationMessage For="@(() => Data.FileContent)" class="text-danger" />
+            <CustomErrorSpan Error="@ErrorSpanText" />
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Wiadomość:
+            <InputText @bind-Value="Data.Message" />
+            <ValidationMessage For="@(() => Data.Message)" class="text-danger"/>
+        </label>
+    </div>
+    <div>
+        <button type="submit">Wyślij</button>
+    </div>
+</EditForm>
+
+<Progress ProgressVisible="@FileReadInProgress" Max="@FileSize" Value="@BytesRead" />
+
+@if(Data.FileContent?.Length > 0 && !string.IsNullOrWhiteSpace(Img64Data))
+{
+    <div>
+        <img src="@Img64Data" width="128"/>
+    </div>
+}
+
+
+@code{
+    private FormDataViewModel Data { get; set; } = new();
+    private long FileSize { get; set; }
+    private long BytesRead { get; set; }
+    private bool FileReadInProgress { get; set; } = false;
+    private string Img64Data { get; set; }
+    private string ErrorSpanText { get; set; }
+    [Inject]
+    public IHttpClientFactory HttpClientFactory { get; set; }
+
+    private async Task FileChangeHandler(InputFileChangeEventArgs args)
+    {
+        const int maxFileSize = 1024 * 1024;
+
+        if (!ValidateFileSize(args.File.Size, maxFileSize))
+            return;
+
+        using MemoryStream ms = await ReadFileWithProgress(args, maxFileSize);        
+
+        Data.FileContent = ms.GetBuffer();
+        Img64Data = $"data:{args.File.ContentType};base64,{Convert.ToBase64String(Data.FileContent)}";
+    }
+
+    private bool ValidateFileSize(long fileSize, long maxFileSize)
+    {
+        if (fileSize > maxFileSize)
+        {
+            ErrorSpanText = "Plik jest za duży";
+            return false;
+        }
+
+        ErrorSpanText = string.Empty;
+        return true;
+    }
+
+    private async Task<MemoryStream> ReadFileWithProgress(InputFileChangeEventArgs args, int maxSize)
+    {
+        try
+        {
+            MemoryStream result = new();
+            FileSize = args.File.Size;
+            BytesRead = 0;
+            FileReadInProgress = true;
+
+            var stream = args.File.OpenReadStream(maxSize);
+            byte[] buffer = System.Buffers.ArrayPool<byte>.Shared.Rent(1024);
+
+            while (await stream.ReadAsync(buffer) is int read && read > 0)
+            {
+                BytesRead += read;
+                await result.WriteAsync(buffer);
+                StateHasChanged();
+            }
+
+            await stream.CopyToAsync(result);
+            return result;
+        }catch
+        {
+            throw;
+        }finally
+        {
+            FileReadInProgress = false;
+        }
+    }
+
+    private async Task ValidSumbitHandler(EditContext ctx)
+    {
+        var client = HttpClientFactory.CreateClient("api");
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/form");
+
+        var form = new MultipartFormDataContent();
+        var fileContent = new ByteArrayContent(Data.FileContent);
+        form.Add(fileContent, nameof(WebApiFormData.File), "uploaded.jpg");
+
+        var msgContent = new StringContent(Data.Message, new MediaTypeHeaderValue("text/plain"));
+        form.Add(msgContent, nameof(WebApiFormData.Message));
+
+        request.Content = form;
+        await client.SendAsync(request);
+    }
+}

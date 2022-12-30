@@ -1,0 +1,15 @@
+﻿@if(ProgressVisible)
+{
+    <div>
+        <progress value="@Value" max="@Max" />
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool ProgressVisible { get; set; } = false;
+    [Parameter]
+    public long Max { get; set; } = 100;
+    [Parameter]
+    public long Value { get; set; } = 0;
+}

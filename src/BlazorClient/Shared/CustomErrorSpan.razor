@@ -1,0 +1,11 @@
+﻿@if(!string.IsNullOrWhiteSpace(Error))
+{
+    <div>
+        <span class="text-danger">@Error</span>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Error { get; set; } = string.Empty;
+}
